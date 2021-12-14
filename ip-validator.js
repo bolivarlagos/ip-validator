@@ -44,12 +44,21 @@ const handleSuccess = (...successArgs) => {
             console.log('Just finished reading')
             break
         case 'write':
-            console.log('Just finished write file ')
+            console.log('Just finished write file ', successArgs[1])
             break 
         default:
             console.log('Not expected')
             break
     }
+}
+
+const write = (name, content) => {
+    fs.writeFile(name, content, (err) => {
+        if(err){
+            customEmitter.emit('exit', 'error', err)
+        }
+        customEmitter.emit('success', 'write', name)
+    })
 }
 
 customEmitter.on('exit', handleExit)
@@ -83,18 +92,9 @@ if(!arg){
             }
         })
         customEmitter.emit('success', 'read')
-        fs.writeFile(ip4FileName, allIpv4, (err) => {
-            if(err){
-                customEmitter.emit('exit', 'error', err)
-            }
-            customEmitter.emit('success', 'write')
-        })
-        fs.writeFile(ip6FileName, allIpv6, (err) => {
-            if(err){
-                customEmitter.emit('exit', 'error', err)
-            }
-            customEmitter.emit('success', 'write')
-        })
+
+        write(ip4FileName, allIpv4)
+        write(ip6FileName, allIpv6)
     })
 }
 
