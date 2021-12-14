@@ -2,7 +2,7 @@
 
 Linux:
 ```
-git clone ...
+git clone https://github.com/bolivarlagos/ip-validator.git
 ```
 Link:
 ```
