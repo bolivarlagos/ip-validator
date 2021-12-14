@@ -1,0 +1,14 @@
+{
+  "name": "ip-validator",
+  "version": "2.0.0",
+  "description": "Search for valid ips in a specific file",
+  "main": "ip-validator",
+  "preferGlobal": true,
+  "bin": "./ip-validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Me",
+  "license": "ISC"
+}
