@@ -35,9 +35,25 @@ const handleExit = (...emiterArgs) => {
             console.log('Not expected')
             break     
     }
+    process.exit(true)
+}
+
+const handleSuccess = (...successArgs) => {
+    switch(successArgs[0]){
+        case 'read':
+            console.log('Just finished reading')
+            break
+        case 'write':
+            console.log('Just finished write file ')
+            break 
+        default:
+            console.log('Not expected')
+            break
+    }
 }
 
 customEmitter.on('exit', handleExit)
+customEmitter.on('success', handleSuccess)
 
 if(process.argv.length > 3){
     customEmitter.emit('exit', 'exceed')
@@ -66,7 +82,19 @@ if(!arg){
                 return 
             }
         })
-        console.log(allIpv4, allIpv6)
+        customEmitter.emit('success', 'read')
+        fs.writeFile(ip4FileName, allIpv4, (err) => {
+            if(err){
+                customEmitter.emit('exit', 'error', err)
+            }
+            customEmitter.emit('success', 'write')
+        })
+        fs.writeFile(ip6FileName, allIpv6, (err) => {
+            if(err){
+                customEmitter.emit('exit', 'error', err)
+            }
+            customEmitter.emit('success', 'write')
+        })
     })
 }
 
